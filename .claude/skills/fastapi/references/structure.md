@@ -2,6 +2,11 @@
 
 > **Read when:** scaffolding a new module, adding a file, or unsure where something belongs.
 
+## Contents
+- [1. Directory Layout](#1-directory-layout)
+- [2. Naming Conventions](#2-naming-conventions) — files, Python identifiers, database, permissions
+- [Decision Guide — What Goes Where](#decision-guide--what-goes-where)
+
 ## 1. Directory Layout
 
 ```
