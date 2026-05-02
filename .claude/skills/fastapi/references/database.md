@@ -78,9 +78,9 @@ file_template = %%(year)d_%%(month).2d_%%(day).2d_%%(hour).2d%%(minute).2d-%%(re
 ```bash
 # 1. Edit model in app/<feature>/models/
 # 2. Add the model class to app/core/alembic_models_import.py
-# 3. Generate migration
-alembic revision --autogenerate -m "<description>"
+# 3. Generate migration (runs inside the api container)
+docker compose exec api alembic revision --autogenerate -m "<description>"
 # 4. Review the generated file in migrations/versions/
 # 5. Apply
-alembic upgrade head
+docker compose exec api alembic upgrade head
 ```

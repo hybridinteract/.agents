@@ -9,30 +9,34 @@
 | Package management | `uv` | Already used in the Dockerfile builder stage. Use it for local dev too. |
 | Linting & formatting | `ruff` | Enable the FastAPI rule set. Run on pre-commit. |
 | Type checking | `ty` | Project type checker of choice. |
-| Dev server | `fastapi dev` | Reads entrypoint from `[tool.fastapi] entrypoint` in `pyproject.toml`. |
-| Production server | `fastapi run` | Same entrypoint. Docker remains the deploy target. |
+| Dev server | `docker compose up api` | uvicorn --reload inside the container; mounts `./app` live. |
+| Production server | `docker compose up` | Same image, full stack. No local Python runtime needed. |
 | HTTP client | `httpx` | Sync + async. **Never** add `requests` to this project. |
 | Async ↔ blocking bridge | `asyncer` | `asyncify(...)` to call blocking I/O from async; `syncify(...)` for the reverse. Prefer over `anyio.to_thread` / `asyncio.to_thread`. |
 
-## 2. `pyproject.toml` Entrypoint
-
-```toml
-[tool.fastapi]
-entrypoint = "app.core.main:app"
-```
-
-With this in place, `fastapi dev` and `fastapi run` work without an explicit path.
-
-## 3. CLI
+## 2. Docker Compose CLI
 
 ```bash
-# Dev (auto-reload)
-fastapi dev 
+# Start API only (hot-reload active)
+docker compose up api
 
-# Production
-fastapi run
+# Start full stack
+docker compose up
 
+# Rebuild after dependency changes
+docker compose up --build api
+
+# Run a one-off command inside the running api container
+docker compose exec api alembic upgrade head
+docker compose exec api python -m app.user.seed
+
+# View logs
+docker compose logs -f api
+docker compose logs -f celery_worker
 ```
+
+The `api` container is configured with `--reload --reload-dir /app/app`;
+`./app` is bind-mounted read-only so edits are reflected instantly.
 
 ## 4. Asyncer Examples
 

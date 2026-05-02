@@ -10,7 +10,7 @@ when_to_use: >
   mentions FastAPI, SQLAlchemy, Alembic, Pydantic, CRUD, service layer,
   dependencies.py, or module scaffolding.
 paths: "app/**/*.py, migrations/**/*.py"
-allowed-tools: "Bash(alembic *) Bash(fastapi *) Bash(uv *) Bash(ruff *)"
+allowed-tools: "Bash(alembic *) Bash(docker compose *) Bash(uv *) Bash(ruff *)"
 argument-hint: "[module-name or topic]"
 ---
 
